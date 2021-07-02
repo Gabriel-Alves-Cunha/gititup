@@ -25,7 +25,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	);
 
 	const redirectUri = AuthSession.makeRedirectUri();
-	const [request, _response, promptAsync] = AuthSession.useAuthRequest(
+	const [_request, _response, promptAsync] = AuthSession.useAuthRequest(
 		{
 			redirectUri,
 			clientId,
@@ -101,7 +101,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	return (
 		<AuthContext.Provider
-			value={{ disabled: !request, loading: isLoading, user, signIn, signOut }}
+			value={{ loading: isLoading, user, signIn, signOut }}
 		>
 			{children}
 		</AuthContext.Provider>

@@ -23,7 +23,6 @@ export type AuthContextProps = {
 	signOut(): Promise<void>;
 	signIn(): Promise<void>;
 	user: StoragedUser;
-	disabled: boolean;
 	loading: boolean;
 };
 
@@ -64,7 +63,8 @@ export async function createTokenWithCode(code: string) {
 		});
 
 		console.log("[LOG] res.request._response =", res.request._response);
-		const access_token: string = res.data.split("=")[1].split("&")[0];
+
+		const access_token: string = res.data.access_token;
 		console.log("[LOG] access_token =", access_token);
 
 		return access_token;

@@ -3,7 +3,7 @@ export default {
 		header: "#1b1b1f",
 
 		background_primary: "#f4f5f6",
-		background_secondary: "#fff",
+		white: "#fff",
 
 		text: "#7a7a80",
 		text_detail: "#aeaeb3",
@@ -18,6 +18,8 @@ export default {
 
 		shape: "#e1e1e8",
 		shape_dark: "#29292e",
+
+		github_color: "black",
 	},
 
 	fonts: {

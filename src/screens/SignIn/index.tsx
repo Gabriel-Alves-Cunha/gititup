@@ -1,14 +1,15 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
+import { SocialSignInButton } from "../../components/SocialSignInButton";
 import { useAuth } from "../../hooks/auth";
 
-import { Container, Title, SignInButton, SignInTitle } from "./styles";
+import { Container, Title } from "./styles";
 
 import theme from "../../styles/theme";
 
 export function SignIn() {
-	const { disabled, loading, signIn } = useAuth();
+	const { loading, signIn } = useAuth();
 
 	async function handleSignIn() {
 		await signIn();
@@ -16,15 +17,15 @@ export function SignIn() {
 
 	return (
 		<Container>
-			<Title>Idiota</Title>
+			<Title>Welcome</Title>
 
-			{loading ? (
-				<ActivityIndicator color={theme.colors.main} />
-			) : (
-				<SignInButton onPress={handleSignIn} disabled={disabled}>
-					<SignInTitle>Entrar com Github</SignInTitle>
-				</SignInButton>
-			)}
+			<SocialSignInButton
+				icon={<AntDesign name="github" size={24} color="black" />}
+				color={theme.colors.github_color}
+				onPress={() => handleSignIn()}
+				enabled={!loading}
+				title="Enter with Github"
+			/>
 		</Container>
 	);
 }

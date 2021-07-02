@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { NativeScrollEvent, View } from "react-native";
-import { useInfiniteQuery } from "react-query";
+import { InfiniteData, useInfiniteQuery } from "react-query";
 import { useNavigation } from "@react-navigation/core";
 
 import { FetchReposProps, RepoProps } from "../../@types/types";
@@ -14,6 +14,7 @@ import {
 
 import { Container, Header, AppName } from "./styles";
 import { NativeSyntheticEvent } from "react-native";
+import { useMemo } from "react";
 
 let count = 1;
 let timesfunctionIsBeingRedone = 1;
@@ -78,6 +79,9 @@ export function Home() {
 		nav.navigate("MarkdownScreen", { default_branch, full_name });
 	}
 
+	const updatedData = () => data?.pages?.flat() ?? [];
+	const memoUpdatedData = useMemo(updatedData, [data]);
+
 	console.log(`\n[LOG] setRepo(${count}), data.length =`, data?.pages.length);
 
 	return (
@@ -89,7 +93,7 @@ export function Home() {
 			<BigList
 				refreshControl={refreshControl(isFetching, handleRefresh)}
 				onScroll={checkIfNeedsToLoadMore}
-				data={data?.pages.flat() ?? []}
+				data={memoUpdatedData}
 				onPress={handleGo2ReadmePage}
 				// ListEmptyComponent={footerComponent}
 				// ListFooterComponent={footerComponent}

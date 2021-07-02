@@ -15,6 +15,13 @@ export const Profile = styled.View`
 	flex-direction: row;
 `;
 
+export const PersonImg = styled.Image`
+	width: 40px;
+	height: 40px;
+
+	border-radius: 40px;
+`;
+
 export const Title = styled.Text``;
 
 export const Description = styled.Text``;
