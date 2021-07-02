@@ -1,21 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ThemeProvider } from "styled-components";
+import { StatusBar } from "react-native";
+import { LogBox } from "react-native";
+
+import { AuthProvider } from "./src/hooks/auth";
+import { Routes } from "./src/routes";
+
+import theme from "./src/styles/theme";
+
+LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
+
+const queryClient = new QueryClient();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+	return (
+		<ThemeProvider theme={theme}>
+			<StatusBar backgroundColor="transparent" barStyle="dark-content" />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+			<QueryClientProvider client={queryClient}>
+				<AuthProvider>
+					<Routes />
+				</AuthProvider>
+			</QueryClientProvider>
+		</ThemeProvider>
+	);
+}
