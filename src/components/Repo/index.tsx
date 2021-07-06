@@ -1,6 +1,4 @@
 import React from "react";
-import { Image } from "react-native";
-// import FastImage from "expo-react-native-fast-image";
 
 import { ListSeparator } from "../ListSeparator";
 import { RepoProps } from "../../@types/types";
@@ -21,13 +19,14 @@ export function Repo({ data, index, onPress }: Props) {
 				onPress={() => onPress(data.default_branch ?? "", data.full_name)}
 			>
 				<Profile>
-						<PersonImg
-							resizeMode="contain"
-							source={{
-								uri: data.avatar_url,
-							}}
-							onError={() => handleErrorLoadingAvatarImage(index)}
-						/>
+					{/* <ImgContainer */}
+					<PersonImg
+						onError={() => handleErrorLoadingAvatarImage(index)}
+						source={{
+							uri: data.avatar_url,
+						}}
+						resizeMode="cover"
+					/>
 
 					<Title>
 						{index} - {data.name}

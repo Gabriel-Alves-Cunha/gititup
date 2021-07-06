@@ -20,6 +20,8 @@ export default {
 		shape_dark: "#29292e",
 
 		github_color: "black",
+
+		purple: "#650066",
 	},
 
 	fonts: {

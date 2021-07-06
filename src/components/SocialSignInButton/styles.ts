@@ -13,7 +13,7 @@ interface ButtonTextProps {
 export const Container = styled(RectButton)<ButtonProps>`
 	flex-direction: row;
 
-	width: 70%;
+	width: 75%;
 	height: 60px;
 
 	align-items: center;

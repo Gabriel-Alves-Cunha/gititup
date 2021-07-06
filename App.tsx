@@ -18,11 +18,11 @@ export default function App() {
 		<ThemeProvider theme={theme}>
 			<StatusBar backgroundColor="transparent" barStyle="dark-content" />
 
-			<QueryClientProvider client={queryClient}>
-				<AuthProvider>
+			<AuthProvider>
+				<QueryClientProvider client={queryClient}>
 					<Routes />
-				</AuthProvider>
-			</QueryClientProvider>
+				</QueryClientProvider>
+			</AuthProvider>
 		</ThemeProvider>
 	);
 }

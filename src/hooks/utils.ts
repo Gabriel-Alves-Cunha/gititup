@@ -30,8 +30,8 @@ export type AuthProviderProps = {
 	children: ReactNode;
 };
 
-export const clientId = process.env.CLIENT_ID as string;
 export const clientSecret = process.env.CLIENT_SECRET as string;
+export const clientId = process.env.CLIENT_ID as string;
 
 export const revocationEndpoint = `https://github.com/settings/connections/applications/${clientId}`;
 export const authorizationEndpoint = "https://github.com/login/oauth/authorize";

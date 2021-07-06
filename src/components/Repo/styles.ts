@@ -8,11 +8,15 @@ export const Container = styled(TouchableOpacity)`
 	width: 100%;
 	height: ${ITEM_HEIGHT}px;
 
-	padding: 25px;
+	padding: 15px;
 `;
 
 export const Profile = styled.View`
 	flex-direction: row;
+
+	align-items: center; /* Y */
+
+	margin-bottom: 10px;
 `;
 
 export const PersonImg = styled.Image`
@@ -20,8 +24,14 @@ export const PersonImg = styled.Image`
 	height: 40px;
 
 	border-radius: 40px;
+
+	overflow: hidden;
 `;
 
-export const Title = styled.Text``;
+export const Title = styled.Text`
+	font-size: 15px;
+
+	left: 20px;
+`;
 
 export const Description = styled.Text``;

@@ -22,11 +22,12 @@ export type useQueryResponse = {
 
 export type FetchReposProps = {
 	since: "lastWeek" | "lastMonth";
-	language: string;
 	pageParam: number;
+	language: string;
 };
 
 type Owner = NonNullable<GithubRepoProps["owner"]>;
+
 export type RepoProps = Pick<
 	GithubRepoProps,
 	| "html_url"
@@ -38,3 +39,17 @@ export type RepoProps = Pick<
 	| "default_branch"
 > &
 	Pick<Owner, "login" | "avatar_url">;
+
+export type AnimationObject = {
+	// From lottieView
+	v: string;
+	fr: number;
+	ip: number;
+	op: number;
+	w: number;
+	h: number;
+	nm: string;
+	ddd: number;
+	assets: any[];
+	layers: any[];
+};

@@ -40,11 +40,10 @@ export async function fetchReposAxios({
 	pageParam = 1,
 }: FetchReposProps) {
 	const l = encodeURIComponent(language);
-	const lang = l ? `&language=${l}&` : "";
+	const lang = l ? `language=${l}&` : "";
 	const lastMonth = getLastMonth();
 	// const sinceOption = since ==="lastMonth"?lastMonth:lastWeek;
-	const created = `created:>=${lastMonth}&`;
-	const url = `?q=${created}${lang}sort=stars&order=desc&per_page=10&page=${pageParam}`;
+	const url = `?q=created:>=${lastMonth}&${lang}sort=stars&order=desc&per_page=10&page=${pageParam}`;
 	console.log("\n\n[LOG] queryUrl =", url);
 
 	try {
@@ -53,11 +52,6 @@ export async function fetchReposAxios({
 		);
 
 		// console.log("\n\n[LOG] res =", res);
-		// console.log("\n\n[LOG] keys of res =", Object.keys(res));
-		// console.log("\n\n[LOG] res.status =", res.status);
-		// console.log("\n\n[LOG] res.config.url =", res.config.url);
-		// console.log("\n\n[LOG] res.headers =", res.headers);
-		// console.log("\n\n[LOG] res.data.items.length =", res.data.items.length);
 
 		const repos: RepoProps[] = res.data.items.map((repo: GithubRepoProps) => {
 			const ret: RepoProps = {
@@ -89,19 +83,15 @@ export async function getGithubReadmeString({
 }: Pick<RepoProps, "default_branch" | "full_name">): Promise<string> {
 	try {
 		const res = await api.get(
-			`https://raw.githubusercontent.com/${full_name}/${default_branch}/readme.md`
+			`https://raw.githubusercontent.com/${full_name}/${default_branch}/README.md`,
+			{ timeout: TIMEOUT_INTERVAL_MS }
 		);
-		console.log("\n\n[LOG] res =", res);
-		// console.log("\n\n[LOG] keys of res =", Object.keys(res));
-		// console.log("\n\n[LOG] res.status =", res.status);
-		// console.log("\n\n[LOG] res.config.url =", res.config.url);
-		// console.log("\n\n[LOG] res.headers =", res.headers);
-		// console.log("\n\n[LOG] res.data.items.length =", res.data.items.length);
+		// console.log("\n\n[LOG] res =", res);
 
 		return res.data;
 	} catch (error) {
 		console.log(JSON.stringify(error));
-		return "";
+		throw new Error(error);
 	}
 }
 
@@ -111,3 +101,5 @@ function getLastMonth() {
 	lastMonth.setDate(1);
 	return lastMonth.toISOString().split("T")[0]; // YYYY-MM-dd
 }
+
+export const TIMEOUT_INTERVAL_MS = 1000 * 10;

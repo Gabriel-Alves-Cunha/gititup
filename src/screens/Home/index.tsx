@@ -35,7 +35,7 @@ export function Home() {
 		"repos",
 		async () => await fetchReposAxios({ language, since, pageParam: 1 }),
 		{
-			onSuccess: (data) => console.log("\n\n[LOG] data =", data),
+			// onSuccess: (data) => console.log("\n\n[LOG] data =", data),
 			getNextPageParam: (_lastPage, pages) => {
 				return { language, since, pageParams: pages.length + 1 };
 			},
@@ -81,8 +81,6 @@ export function Home() {
 
 	const updatedData = () => data?.pages?.flat() ?? [];
 	const memoUpdatedData = useMemo(updatedData, [data]);
-
-	console.log(`\n[LOG] setRepo(${count}), data.length =`, data?.pages.length);
 
 	return (
 		<Container>
