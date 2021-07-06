@@ -77,6 +77,7 @@ export async function fetchReposAxios({
 	}
 }
 
+// TODO: useQuery
 export async function getGithubReadmeString({
 	default_branch,
 	full_name,
@@ -86,7 +87,7 @@ export async function getGithubReadmeString({
 			`https://raw.githubusercontent.com/${full_name}/${default_branch}/README.md`,
 			{ timeout: TIMEOUT_INTERVAL_MS }
 		);
-		// console.log("\n\n[LOG] res =", res);
+		console.log("\n\n[LOG] getGithubReadmeString() res.status =", res.status);
 
 		return res.data;
 	} catch (error) {

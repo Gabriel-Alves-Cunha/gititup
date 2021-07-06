@@ -1,7 +1,4 @@
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
-
-import { RepoProps } from "../../components/Repo";
 
 export const Container = styled.View`
 	flex: 1;
@@ -10,22 +7,21 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
+	flex-direction: row;
 	flex: 1;
+	width: 100%;
+	height: 100px;
 
-	margin-left: 23px;
-	margin-top: 70px;
-	margin-bottom: 90px;
+	justify-content: space-between;
+	align-items: center;
 
-	align-items: flex-start;
+	background-color: white;
+	padding: 24px;
 `;
 
 export const AppName = styled.Text`
 	font-family: serif;
-	font-size: 25px;
+	font-size: 24px;
 
-	text-align: center;
-`;
-
-export const List = styled(FlatList as new () => FlatList<RepoProps>)`
-	width: 100%;
+	margin-bottom: 8px;
 `;

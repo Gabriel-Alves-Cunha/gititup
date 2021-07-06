@@ -1,10 +1,14 @@
-import React, { useCallback, useState } from "react";
-import { NativeScrollEvent, View } from "react-native";
-import { InfiniteData, useInfiniteQuery } from "react-query";
+import React, { useCallback, useState, useMemo } from "react";
+import { NativeScrollEvent, View, NativeSyntheticEvent } from "react-native";
+import { useInfiniteQuery } from "react-query";
 import { useNavigation } from "@react-navigation/core";
 
-import { FetchReposProps, RepoProps } from "../../@types/types";
+import allTheDataAnimation from "../../assets/animations/all-the-data.json";
+
+import { FetchReposProps } from "../../@types/types";
 import { fetchReposAxios } from "../../query";
+import { Animation } from "../../components/Animation";
+import { HamMenu } from "../../components/HamMenu";
 import BigList from "../../components/BigList";
 import {
 	FooterComponent,
@@ -13,29 +17,32 @@ import {
 } from "../../components/BigList/utils";
 
 import { Container, Header, AppName } from "./styles";
-import { NativeSyntheticEvent } from "react-native";
-import { useMemo } from "react";
 
-let count = 1;
 let timesfunctionIsBeingRedone = 1;
+let count = 1;
+const languages = [
+	{ name: "C", value: "C" },
+	{ name: "C++", value: "C++" },
+];
 
 export function Home() {
 	const nav = useNavigation();
+
 	const [language, setLanguage] = useState<FetchReposProps["language"]>("");
 	const [since, setSince] = useState<FetchReposProps["since"]>("lastMonth");
+	const [isOpen, setIsOpen] = useState(false);
 
 	const {
-		data,
+		isFetchingNextPage,
 		fetchNextPage,
 		isFetching,
-		isFetchingNextPage,
-		status,
 		refetch,
+		status,
+		data,
 	} = useInfiniteQuery(
 		"repos",
 		async () => await fetchReposAxios({ language, since, pageParam: 1 }),
 		{
-			// onSuccess: (data) => console.log("\n\n[LOG] data =", data),
 			getNextPageParam: (_lastPage, pages) => {
 				return { language, since, pageParams: pages.length + 1 };
 			},
@@ -43,8 +50,8 @@ export function Home() {
 				console.log(`\n\n[LOG] onSettled(${count}), error = ${error}`);
 				++count;
 			},
-			keepPreviousData: true,
 			refetchOnWindowFocus: false,
+			keepPreviousData: true,
 			refetchOnMount: false,
 			staleTime: 10000000,
 			retryDelay,
@@ -53,7 +60,7 @@ export function Home() {
 
 	if (isFetching) console.log("\nisFetching\n");
 	console.log(
-		`\n timesfunctionIsBeingRedone = ${timesfunctionIsBeingRedone}\n`
+		`\nTimes function is being redone = ${timesfunctionIsBeingRedone}\n`
 	);
 	++timesfunctionIsBeingRedone;
 
@@ -84,9 +91,33 @@ export function Home() {
 
 	return (
 		<Container>
-			{/* <Header>
-					<AppName>GitItUp</AppName>
-				</Header> */}
+			<Header>
+				<AppName>GitItUp</AppName>
+
+				<HamMenu setIsOpen={setIsOpen} isOpen={isOpen} />
+			</Header>
+
+			{status === "loading" && (
+				<View
+					style={{
+						position: "absolute",
+						flex: 1,
+						alignItems: "center",
+						marginLeft: "auto",
+						marginRight: "auto",
+						marginTop: "auto",
+						marginBottom: "auto",
+						left: 0,
+						right: 0,
+						top: 0,
+						bottom: 0,
+						justifyContent: "center",
+						backgroundColor: "white",
+					}}
+				>
+					<Animation src={allTheDataAnimation} height={400} />
+				</View>
+			)}
 
 			<BigList
 				refreshControl={refreshControl(isFetching, handleRefresh)}
@@ -99,7 +130,3 @@ export function Home() {
 		</Container>
 	);
 }
-
-// map((page) => {
-// 	page.map((repo) => repo);
-// }
