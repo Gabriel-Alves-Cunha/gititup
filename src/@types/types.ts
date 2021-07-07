@@ -22,7 +22,7 @@ export type useQueryResponse = {
 
 export type FetchReposProps = {
 	since: "lastWeek" | "lastMonth";
-	pageParam: number;
+	pageNumber: number;
 	language: string;
 };
 
@@ -52,4 +52,15 @@ export type AnimationObject = {
 	ddd: number;
 	assets: any[];
 	layers: any[];
+};
+
+export type Language = FetchReposProps["language"];
+export type Since = FetchReposProps["since"];
+
+export type usingQueryParams = {
+	setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+	setRepos: React.Dispatch<React.SetStateAction<RepoProps[]>>;
+	language: Language;
+	pageNumber: number;
+	since: Since;
 };

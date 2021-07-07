@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { ScrollView, ScrollViewProps } from "react-native";
 
 import { FooterComponent, keyExtractor } from "./utils";
@@ -10,7 +10,7 @@ type BigListProps = ScrollViewProps & {
 	data: RepoProps[];
 };
 
-function BigList({ data, onPress, ...rest }: BigListProps) {
+export function BigList({ data, onPress, ...rest }: BigListProps) {
 	return (
 		<ScrollView {...rest}>
 			{data.map((repo, index) => (
@@ -24,5 +24,3 @@ function BigList({ data, onPress, ...rest }: BigListProps) {
 		</ScrollView>
 	);
 }
-
-export default memo(BigList);

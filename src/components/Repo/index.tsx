@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { ListSeparator } from "../ListSeparator";
 import { RepoProps } from "../../@types/types";
@@ -11,19 +11,24 @@ type Props = {
 	index: number;
 };
 
-export function Repo({ data, index, onPress }: Props) {
+function RepoComponent({ data, index, onPress }: Props) {
 	return (
 		<>
 			<ListSeparator />
 			<Container
-				onPress={() => onPress(data.default_branch ?? "", data.full_name)}
+				onPress={() =>
+					onPress(
+						data.default_branch ?? "ThereIsNoDefaultBranch",
+						data.full_name
+					)
+				}
 			>
 				<Profile>
-					{/* <ImgContainer */}
 					<PersonImg
 						onError={() => handleErrorLoadingAvatarImage(index)}
 						source={{
 							uri: data.avatar_url,
+							cache: "force-cache",
 						}}
 						resizeMode="cover"
 					/>
@@ -33,17 +38,24 @@ export function Repo({ data, index, onPress }: Props) {
 					</Title>
 				</Profile>
 
-				<Description>{truncate(data.description ?? "", 200)}</Description>
+				<Description>{truncate(data.description ?? "", 150)}</Description>
 			</Container>
 			<ListSeparator />
 		</>
 	);
 }
 
-function truncate(str: string, n: number) {
-	return str.length > n ? str.substr(0, n - 1) + "\u2026" : str;
+function truncate(str: string, numberOfChars: number) {
+	return str.length > numberOfChars
+		? str.substr(0, numberOfChars - 1) + "\u2026"
+		: str;
 }
 
 function handleErrorLoadingAvatarImage(index: number) {
 	console.log(`\n[ERROR] loading avatar index(${index})!\n`);
 }
+
+export const Repo = memo(RepoComponent, (nowProps, nextProps) => {
+	return nowProps.data.html_url === nextProps.data?.html_url;
+	// Or `Object.is(nowProps, nextProps);`
+});

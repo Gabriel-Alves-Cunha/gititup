@@ -1,7 +1,7 @@
 import React from "react";
 import { RefreshControl, View } from "react-native";
 
-import { RepoProps } from "../Repo";
+import { RepoProps } from "../../@types/types";
 import { Loading } from "../Loading";
 
 export function FooterComponent() {

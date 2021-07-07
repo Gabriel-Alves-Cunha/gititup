@@ -34,4 +34,6 @@ export const Title = styled.Text`
 	left: 20px;
 `;
 
-export const Description = styled.Text``;
+export const Description = styled.Text`
+	height: 70px;
+`;

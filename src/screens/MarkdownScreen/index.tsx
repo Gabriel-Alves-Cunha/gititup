@@ -9,8 +9,8 @@ import {
 	Alert,
 	View,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 import MarkdownWebView from "react-native-github-markdown";
 
 import loadingTextAnimation from "../../assets/animations/loading-text.json";
@@ -22,9 +22,9 @@ import { ErrorView } from "../../components/ErrorView";
 import { Container } from "./styles";
 
 export function MarkdownScreen() {
+	const webviewRef = useRef(null);
 	const route = useRoute();
 	const { default_branch, full_name } = route.params as Params;
-	const webviewRef = useRef(null);
 
 	const [isLoadingRequest, setIsLoadingRequest] = useState(true);
 	const [canGoForward, setCanGoForward] = useState(false);
@@ -33,13 +33,8 @@ export function MarkdownScreen() {
 	const [error, setError] = useState("");
 	const [text, setText] = useState("");
 
-	const backButtonHandler = () => {
-		if (webviewRef.current) webviewRef.current.goBack();
-	};
-
-	const frontButtonHandler = () => {
-		if (webviewRef.current) webviewRef.current.goForward();
-	};
+	const frontButtonHandler = () => webviewRef.current?.goForward();
+	const backButtonHandler = () => webviewRef.current?.goBack();
 
 	async function getMarkdowData() {
 		try {
@@ -54,33 +49,33 @@ export function MarkdownScreen() {
 		}
 	}
 
-	function MyNagivator() {
-		return (
-			<View
-				style={{
-					justifyContent: "space-around",
-					backgroundColor: "#f7f4f5",
-					flexDirection: "row",
-					padding: 10,
-				}}
-			>
-				<TouchableOpacity onPress={backButtonHandler} disabled={!canGoBack}>
-					<Feather
-						color={canGoBack ? "black" : "gray"}
-						name="arrow-left"
-						size={24}
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={frontButtonHandler} disabled={!canGoForward}>
-					<Feather
-						color={canGoBack ? "black" : "gray"}
-						name="arrow-right"
-						size={24}
-					/>
-				</TouchableOpacity>
-			</View>
-		);
-	}
+	// function MyNagivator() {
+	// 	return (
+	// 		<View
+	// 			style={{
+	// 				justifyContent: "space-around",
+	// 				backgroundColor: "#f7f4f5",
+	// 				flexDirection: "row",
+	// 				padding: 10,
+	// 			}}
+	// 		>
+	// 			<TouchableOpacity onPress={backButtonHandler} disabled={!canGoBack}>
+	// 				<Feather
+	// 					color={canGoBack ? "black" : "rgba(0,0,0,0.1)"}
+	// 					name="arrow-left"
+	// 					size={24}
+	// 				/>
+	// 			</TouchableOpacity>
+	// 			<TouchableOpacity onPress={frontButtonHandler} disabled={!canGoForward}>
+	// 				<Feather
+	// 					color={canGoBack ? "black" : "rgba(0,0,0,0.1)"}
+	// 					name="arrow-right"
+	// 					size={24}
+	// 				/>
+	// 			</TouchableOpacity>
+	// 		</View>
+	// 	);
+	// }
 
 	useEffect(() => {
 		(async () => getMarkdowData())();
@@ -90,13 +85,18 @@ export function MarkdownScreen() {
 		<Container>
 			<StatusBar barStyle="dark-content" />
 
-			<MyNagivator />
+			{/* <MyNagivator /> */}
 
 			{isLoadingRequest ? (
 				<View
-					style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+					style={{
+						backgroundColor: "white",
+						justifyContent: "center",
+						alignItems: "center",
+						flex: 1,
+					}}
 				>
-					<Animation src={loadingTextAnimation} height={100} autoPlay loop />
+					<Animation src={loadingTextAnimation} height={200} autoPlay loop />
 				</View>
 			) : error ? (
 				<ErrorView error={error} onPress={getMarkdowData} />
@@ -112,7 +112,6 @@ export function MarkdownScreen() {
 							}}
 						/>
 					}
-					style={{ height: "110%" }}
 				>
 					<MarkdownWebView
 						onHttpError={(syntheticEvent) => {
@@ -143,7 +142,7 @@ export function MarkdownScreen() {
 							setCanGoForward(navState.canGoForward);
 							setCanGoBack(navState.canGoBack);
 						}}
-						originWhitelist={["https://*", "git://*"]}
+						originWhitelist={["*"]}
 						androidLayerType={"hardware"}
 						style={{ flex: 1 }}
 						ref={webviewRef}
